@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<search>
+  <entry>
+    <title><![CDATA[一个简单的划词翻译脚本]]></title>
+    <url>%2F2019%2F04%2F13%2Fa-simple-translating-script%2F</url>
+    <content type="text"><![CDATA[调用百度翻译api的划词翻译脚本 需求python3，安装库pyperclip和pyautogui 去百度翻译开放平台注册appid 在下面代码块命名为translate.py并输入appid和secretkeyWindows系统中 下载Hotkey Helper 配置如下图所示，其中Hotkey选择想要的快捷键，File选择pythonw.exe的绝对位置，Parameter选择translate.py的绝对位置 通过鼠标选择文本后，按下快捷键可以快速英汉互译，通过弹窗显示结果，其中汉译英需要满足第一个字是汉字 该脚本也会自动复制翻译结果到剪切板中，按ctrl+v也可以显示文本Linux或Mac系统中 自定义快捷键 $\text{python {translate.py 绝对位置}}$$\text translate.py$12345678910111213141516171819202122232425262728293031323334353637383940414243import pyperclipimport pyautoguifrom http import clientfrom hashlib import md5import urllib.parseimport randomimport jsonpyautogui.hotkey('ctrl', 'c')sentence = pyperclip.paste()if sentence[0] &gt;= u'\u4e00' and sentence[0] &lt;= u'\u9fa5': fromLang = 'auto' toLang = 'en'else: fromLang = 'auto' toLang = 'zh'# enter your appidappid = ''# enter your secretkeysecretKey = ''myurl = '/api/trans/vip/translate'salt = random.randint(32768, 65536)sentence = sentence.replace('\n', ' ')sign = appid + sentence + str(salt) + secretKeym1 = md5(sign.encode(encoding='utf-8'))sign = m1.hexdigest()myurl = myurl + '?appid=' + appid + '&amp;q=' + urllib.parse.quote(sentence) + '&amp;from=' + fromLang + '&amp;to=' + toLang + '&amp;salt=' + str(salt) + '&amp;sign=' + signtry: httpClient = client.HTTPConnection('api.fanyi.baidu.com') httpClient.request('GET', myurl) response = httpClient.getresponse() result = response.read() result = json.loads(result)['trans_result'][0]['dst']except: result = 'Non-networked'finally: if httpClient: httpClient.close()try: # pyperclip.copy('api.fanyi.baidu.com/' + myurl) pyperclip.copy(result) pyautogui.alert(result, title='Result')except: pass]]></content>
+      <tags>
+        <tag>python</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[重装系统后的那些事]]></title>
+    <url>%2F2019%2F04%2F10%2Fafter-the-system-reinstalled%2F</url>
+    <content type="text"><![CDATA[安装驱动 &emsp;等待更新驱动或手动更新，下载最新N卡驱动安装 激活 &emsp;设置==&gt;更新和安全==&gt;激活==&gt;更改产品密钥 手动更新: &emsp;设置==&gt;Windows更新==&gt;检查更新 设置主题 &emsp;设置==&gt;个性化==&gt;主题&emsp;设置==&gt;个性化==&gt;任务栏 桌面设置控制面板等 &emsp;设置==&gt;主题==&gt;桌面图标设置 更改库文件夹位置 &emsp;设置==&gt;系统==&gt;存储==&gt;更改新内容的保存位置&emsp;此电脑==&gt;文件夹属性==&gt;位置==&gt;移动 设置右键打开命令行窗口 &emsp;Win+R==&gt;regedit===打开注册表编辑器&emsp;HKEY_CLASSES_ROOT==&gt;Directory==&gt;Background==&gt;shell==&gt;cmd&emsp;点击cmd文件夹，右键==&gt;权限==&gt;高级==&gt;所有者更改==&gt;高级==&gt;立即查找==&gt;找到自己后确定&emsp;退出来后在组或用户名中选择Administrators，给予完全控制的权限&emsp;点击cmd文件夹，把右边的HideBasedOnVelocityId重命名为ShowBasedOnVelocityId&emsp;删除Extended项(没删的话需要shift+右键)]]></content>
+      <tags>
+        <tag>windows</tag>
+      </tags>
+  </entry>
+</search>
